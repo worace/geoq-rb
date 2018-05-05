@@ -1,9 +1,8 @@
-require 'test/unit'
+$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
+require "geo-cli"
 
-# Add test libraries you want to use here, e.g. mocha
+require "minitest/autorun"
+require "minitest/reporters"
+require "minitest/spec"
 
-class Test::Unit::TestCase
-
-  # Add global extensions to the test case class here
-  
-end
+Minitest::Reporters.use! Minitest::Reporters::DefaultReporter.new
