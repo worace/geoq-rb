@@ -15,6 +15,7 @@ module GeoCli
     def initialize(instream)
       @instream = instream
       @wkt = RGeo::WKRep::WKTParser.new
+      @factory = RGeo::Cartesian.factory
     end
 
     def each(&block)
@@ -25,7 +26,10 @@ module GeoCli
 
     def decode(line)
       if geohash?(line)
-        GeoHash.decode(line)
+        (lat1, lon1), (lat2, lon2) = GeoHash.decode(line)
+        p1 = factory.point(lon1, lat1)
+        p2 = factory.point(lon2, lat2)
+        RGeo::Cartesian::BoundingBox.create_from_points(p1, p2).to_geometry
       elsif geojson?(line)
         RGeo::GeoJSON.decode(line)
       else
@@ -45,6 +49,10 @@ module GeoCli
 
     def instream
       @instream
+    end
+
+    def factory
+      @factory
     end
   end
 end

@@ -28,7 +28,7 @@ class TestGeomReader < Minitest::Test
               {type: "Point", coordinates: [0,1]}.to_json,
               "POINT (1.0 2.0)"]
     parsed = make_reader(inputs).to_a
-    assert_equal [[33.75, -119.53125], [35.15625, -118.125]], parsed[0]
+    assert parsed[0].is_a? RGeo::Geos::CAPIPolygonImpl
     assert parsed[1].is_a?(RGeo::Geos::CAPIPointImpl)
     assert parsed[2].is_a?(RGeo::Geos::CAPIPointImpl)
   end

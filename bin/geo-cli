@@ -41,8 +41,8 @@ command :gj do |c|
   c.action do |global_options,options,args|
     parser = RGeo::WKRep::WKTParser.new
 
-    STDIN.each_line do |l|
-      puts RGeo::GeoJSON.encode(parser.parse(l)).to_json
+    GeoCli::GeomReader.new(STDIN).each do |geom|
+      puts RGeo::GeoJSON.encode(geom).to_json
     end
 
     # Your command logic here
