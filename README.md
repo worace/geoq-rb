@@ -24,3 +24,37 @@ geohash to geojson/wkt
 echo 9q5 | geo-cli gj
 => {"type":"Point","coordinates":[1,2]}
 ```
+
+post gist to github
+
+```
+echo 9q5 | geo-cli gj | geo-cli gist
+=> {"type":"Point","coordinates":[1,2]}
+```
+
+geojson feature
+
+```
+echo 9q5 | geo-cli gj f
+=> {"type": "Feature", "properties": {}, "geometry": {"type":"Point","coordinates":[1,2]}}
+```
+
+geojson feature collection
+
+```
+echo 9q5 | geo-cli gj fc
+=> {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {}, "geometry": {"type":"Point","coordinates":[1,2]}}]}
+```
+
+slurp multiple geoms into feature collection
+
+```
+printf "9q5\n9q6\n9q7\n" | geo-cli --slurp gj fc
+=> {"type": "FeatureCollection", "features": [...]}
+```
+
+Geohash Ops
+
+* Covering Geohashes
+* Children
+* Neighbors
