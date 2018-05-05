@@ -1,0 +1,6 @@
+= geo-cli
+
+Describe your project here
+
+:include:geo-cli.rdoc
+

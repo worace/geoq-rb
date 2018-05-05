@@ -1,0 +1,5 @@
+= geo-cli
+
+Generate this with
+    geo-cli rdoc
+After you have described your command line interface
