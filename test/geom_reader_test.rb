@@ -67,7 +67,5 @@ class TestGeomReader < Minitest::Test
 
     gh = [[[-119.53125, 33.75], [-118.125, 33.75], [-118.125, 35.15625], [-119.53125, 35.15625], [-119.53125, 33.75]]]
     assert_equal [gh, [0.0,1.0], [1.0, 2.0], [3.0, 4.0]], features.map { |f| f["geometry"]["coordinates"] }
-
-    puts features.inspect
   end
 end
