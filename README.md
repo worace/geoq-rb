@@ -1,5 +1,7 @@
 # geo-cli
 
+[![Gem Version](https://badge.fury.io/rb/geo-cli.svg)](https://badge.fury.io/rb/geo-cli)
+
 Geospatial Utility Belt.
 
 ## (desired) Features
