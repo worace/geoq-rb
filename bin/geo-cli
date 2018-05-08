@@ -63,7 +63,8 @@ command :gj do |c|
   c.desc "Combine entities into a geojson feature collection"
   c.command :fc do |c|
     c.action do |global_options,options,args|
-      puts GeoCli::FeatureCollection.new(GeoCli::GeomReader.new(STDIN)).to_geojson
+      entities = GeoCli::GeomReader.new(STDIN)
+      puts GeoCli::Commands::GeoJson::FeatureCollection.new(entities).output
     end
   end
 end

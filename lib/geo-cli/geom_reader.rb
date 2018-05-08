@@ -3,6 +3,30 @@ require "rgeo"
 require "rgeo/geo_json"
 
 module GeoCli
+  module Commands
+    class Base
+      attr_reader :global_opts, :opts, :args, :instream
+      def initialize(instream, global_opts = {}, opts = {}, args = [])
+        @global_opts = global_opts
+        @opts = opts
+        @args = args
+        @instream = instream
+      end
+
+      def output
+        raise "Not implemented"
+      end
+    end
+
+    module GeoJson
+      class FeatureCollection < Base
+        def output
+          GeoCli::FeatureCollection.new(instream).to_geojson
+        end
+      end
+    end
+  end
+
   class Entity
     attr_reader :entity
 
@@ -37,6 +61,19 @@ module GeoCli
   end
 
   class GeoJson < Entity
+    def as_geojson(feature = false)
+      if feature
+        if entity.is_a?(RGeo::GeoJSON::Feature)
+          RGeo::GeoJSON.encode(entity)
+        else
+          {type: "Feature",
+           properties: {},
+           geometry: RGeo::GeoJSON.encode(entity)}
+        end
+      else
+        RGeo::GeoJSON.encode(entity)
+      end
+    end
   end
 
   class FeatureCollection
@@ -80,7 +117,7 @@ module GeoCli
         geom = RGeo::Cartesian::BoundingBox.create_from_points(p1, p2).to_geometry
         Geohash.new(geom)
       elsif geojson?(line)
-        Geojson.new(RGeo::GeoJSON.decode(line))
+        GeoJson.new(RGeo::GeoJSON.decode(line))
       else
         Wkt.new(wkt.parse(line))
       end
