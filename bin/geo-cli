@@ -11,18 +11,32 @@ end
 
 include GLI::App
 
-program_desc 'Geospatial utility belt'
+program_desc <<-desc
+Geospatial utility belt
+
+geo-cli is a command-line tool for converting between various
+GIS serialization formats. For example:
+
+echo 9q5 | geo-cli gj geometry
+
+Will output the geohash 9q5 as a geojson geometry.
+
+Most commands will accept a Geohash (base 32 encoded), a WKT,
+or a GeoJSON input, and should recognize the input based on its
+format.
+
+Commands expect one geo entity per line.
+
+See COMMANDS for more possible commands.
+
+See geo-cli <COMMAND> --help for more info on a given command.
+desc
 
 version GeoCli::VERSION
 
 subcommand_option_handling :normal
 arguments :strict
 
-
-desc 'Describe some flag here'
-default_value 'the default'
-arg_name 'The name of the argument'
-flag [:f,:flagname]
 
 desc 'Convert to and manipulate GeoJSON.'
 # desc 'Treat all lines of input as a single collection'
