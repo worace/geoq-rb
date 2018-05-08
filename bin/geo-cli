@@ -45,8 +45,16 @@ command :gj do |c|
       end
     end
   end
+
+  c.desc "Combine entities into a geojson feature collection"
+  c.command :fc do |c|
+    c.action do |global_options,options,args|
+      puts GeoCli::FeatureCollection.new(GeoCli::GeomReader.new(STDIN)).to_geojson
+    end
+  end
 end
 
+desc "Output entity as WKT"
 command :wkt do |c|
   c.action do |global_options,options,args|
     GeoCli::GeomReader.new(STDIN).each do |geom|

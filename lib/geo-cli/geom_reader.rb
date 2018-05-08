@@ -10,15 +10,19 @@ module GeoCli
       @entity = entity
     end
 
-    def to_geojson(feature = false)
+    def as_geojson(feature = false)
       geom = RGeo::GeoJSON.encode(entity)
       if feature
         {type: "Feature",
          properties: {},
-         geometry: geom}.to_json
+         geometry: geom}
       else
-        geom.to_json
+        geom
       end
+    end
+
+    def to_geojson(feature = false)
+      as_geojson(feature).to_json
     end
 
     def to_wkt
@@ -33,6 +37,18 @@ module GeoCli
   end
 
   class GeoJson < Entity
+  end
+
+  class FeatureCollection
+    attr_reader :entities
+    def initialize(entities)
+      @entities = entities
+    end
+
+    def to_geojson
+      {type: "FeatureCollection",
+       features: entities.map { |e| e.as_geojson(true) } }.to_json
+    end
   end
 
   class GeomReader
