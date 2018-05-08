@@ -14,32 +14,25 @@ echo '{"type":"Point","coordinates":[1,2]}' | geo-cli wkt
 wkt to geojson
 
 ```
-echo "POINT (1.0 2.0)" | geo-cli gj
+echo "POINT (1.0 2.0)" | geo-cli gj geometry
 => {"type":"Point","coordinates":[1,2]}
 ```
 
 geohash to geojson/wkt
 
 ```
-echo 9q5 | geo-cli gj
-=> {"type":"Point","coordinates":[1,2]}
-```
-
-post gist to github
-
-```
-echo 9q5 | geo-cli gj | geo-cli gist
+echo 9q5 | geo-cli gj geometry
 => {"type":"Point","coordinates":[1,2]}
 ```
 
 geojson feature
 
 ```
-echo 9q5 | geo-cli gj f
+echo 9q5 | geo-cli gj feature
 => {"type": "Feature", "properties": {}, "geometry": {"type":"Point","coordinates":[1,2]}}
 ```
 
-geojson feature collection
+geojson feature collection (??)
 
 ```
 echo 9q5 | geo-cli gj fc
@@ -49,10 +42,16 @@ echo 9q5 | geo-cli gj fc
 slurp multiple geoms into feature collection
 
 ```
-printf "9q5\n9q6\n9q7\n" | geo-cli --slurp gj fc
+printf "9q5\n9q6\n9q7\n" | geo-cli gj fc
 => {"type": "FeatureCollection", "features": [...]}
 ```
 
+post gist to github
+
+```
+echo 9q5 | geo-cli gj | geo-cli gist
+=> {"type":"Point","coordinates":[1,2]}
+```
 Geohash Ops
 
 * Covering Geohashes

@@ -18,8 +18,6 @@ version GeoCli::VERSION
 subcommand_option_handling :normal
 arguments :strict
 
-desc 'Describe some switch here'
-switch [:s,:switch]
 
 desc 'Describe some flag here'
 default_value 'the default'
@@ -27,34 +25,32 @@ arg_name 'The name of the argument'
 flag [:f,:flagname]
 
 desc 'Convert to and manipulate GeoJSON.'
-# arg_name 'Describe arguments to test here'
+# desc 'Treat all lines of input as a single collection'
+# switch [:s,:slurp]
 command :gj do |c|
-  # c.desc 'Describe a switch to test'
-  # c.switch :s
-
-  # c.desc 'Describe a flag to test'
-  # c.default_value 'default'
-  # c.flag :f
-
-  require "rgeo"
-  require "rgeo/geo_json"
-  c.action do |global_options,options,args|
-    parser = RGeo::WKRep::WKTParser.new
-
-    GeoCli::GeomReader.new(STDIN).each do |geom|
-      puts RGeo::GeoJSON.encode(geom).to_json
+  c.desc "Output entity as a geojson geometry"
+  c.command :geometry do |c|
+    c.action do |global_options,options,args|
+      GeoCli::GeomReader.new(STDIN).each do |entity|
+        puts entity.to_geojson
+      end
     end
+  end
 
-    # Your command logic here
-    # If you have any errors, just raise them
-    # raise "that command made no sense"
+  c.desc "Output entity as a geojson feature"
+  c.command :feature do |c|
+    c.action do |global_options,options,args|
+      GeoCli::GeomReader.new(STDIN).each do |entity|
+        puts entity.to_geojson(true)
+      end
+    end
   end
 end
 
 command :wkt do |c|
   c.action do |global_options,options,args|
     GeoCli::GeomReader.new(STDIN).each do |geom|
-      puts geom.as_text
+      puts geom.to_wkt
     end
   end
 end

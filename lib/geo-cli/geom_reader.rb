@@ -3,6 +3,38 @@ require "rgeo"
 require "rgeo/geo_json"
 
 module GeoCli
+  class Entity
+    attr_reader :entity
+
+    def initialize(entity)
+      @entity = entity
+    end
+
+    def to_geojson(feature = false)
+      geom = RGeo::GeoJSON.encode(entity)
+      if feature
+        {type: "Feature",
+         properties: {},
+         geometry: geom}.to_json
+      else
+        geom.to_json
+      end
+    end
+
+    def to_wkt
+      entity.as_text
+    end
+  end
+
+  class Geohash < Entity
+  end
+
+  class Wkt < Entity
+  end
+
+  class GeoJson < Entity
+  end
+
   class GeomReader
     attr_reader :wkt
 
@@ -29,11 +61,12 @@ module GeoCli
         (lat1, lon1), (lat2, lon2) = GeoHash.decode(line)
         p1 = factory.point(lon1, lat1)
         p2 = factory.point(lon2, lat2)
-        RGeo::Cartesian::BoundingBox.create_from_points(p1, p2).to_geometry
+        geom = RGeo::Cartesian::BoundingBox.create_from_points(p1, p2).to_geometry
+        Geohash.new(geom)
       elsif geojson?(line)
-        RGeo::GeoJSON.decode(line)
+        Geojson.new(RGeo::GeoJSON.decode(line))
       else
-        wkt.parse(line)
+        Wkt.new(wkt.parse(line))
       end
     end
 
