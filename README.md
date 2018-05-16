@@ -75,5 +75,6 @@ Geohash Ops
 * [ ] Output Geom area
 * [ ] Output Geom perimeter
 * [X] Output Geohash Children
-* [ ] Output Geohash Neighbors
+* [X] Output Geohash Neighbors
 * [ ] Output results to gist (geojson only)
+* [ ] Literate-style Usage doc with checked examples
