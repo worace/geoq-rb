@@ -21,9 +21,10 @@ Geospatial utility belt
 
     Will output the geohash 9q5 as a geojson geometry.
 
-    Most commands will accept a Geohash (base 32 encoded), a WKT,
-    or a GeoJSON input, and should recognize the input based on its
-    format.
+    Most commands will accept a Lat/Lon (comma-separated), a Geohash
+    (base 32 encoded), a WKT, or a GeoJSON input.
+
+    The tool should recognize the input type based on its format.
 
     Commands expect one geo entity per line.
 

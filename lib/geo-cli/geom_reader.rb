@@ -60,6 +60,9 @@ module GeoCli
   class Wkt < Entity
   end
 
+  class LatLon < Entity
+  end
+
   class GeoJson < Entity
     def as_geojson(feature = false)
       if feature
@@ -95,6 +98,8 @@ module GeoCli
                  k m n p q r s t u v w x y z).flat_map { |c| [c, c.upcase].uniq }.join("")
     GH_REGEX = Regexp.new(/\A\s*[#{BASE_32}]+\s*\z/)
 
+    LAT_LON_REGEX = /\A-?\d+\.?\d*,-?\d+\.?\d*\z/
+
     include Enumerable
 
     def initialize(instream)
@@ -118,6 +123,8 @@ module GeoCli
         Geohash.new(geom)
       elsif geojson?(line)
         GeoJson.new(RGeo::GeoJSON.decode(line))
+      elsif latlon?(line)
+        LatLon.new(factory.point(*line.split(",").map(&:to_f)))
       else
         Wkt.new(wkt.parse(line))
       end
@@ -129,6 +136,10 @@ module GeoCli
 
     def geojson?(line)
       line.lstrip.start_with?("{")
+    end
+
+    def latlon?(line)
+      !!LAT_LON_REGEX.match(line.gsub(/\s+/, ""))
     end
 
     private

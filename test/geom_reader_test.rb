@@ -23,7 +23,8 @@ class TestGeomReader < Minitest::Test
     inputs = ["9q5",
               {type: "Point", coordinates: [0,1]}.to_json,
               "POINT (1.0 2.0)",
-              {type: "Feature", properties: {a: "b"}, geometry: {type: "Point", coordinates: [3,4]}}.to_json]
+              {type: "Feature", properties: {a: "b"}, geometry: {type: "Point", coordinates: [3,4]}}.to_json,
+              "-118.3,34.52"]
     stream(inputs)
   end
 
@@ -46,6 +47,14 @@ class TestGeomReader < Minitest::Test
     assert parsed[1].is_a? GeoCli::GeoJson
     assert parsed[2].is_a? GeoCli::Wkt
     assert parsed[3].is_a? GeoCli::GeoJson
+    assert parsed[4].is_a? GeoCli::LatLon
+  end
+
+  def test_parsing_lat_lons
+    assert @reader.latlon?("0,0")
+    assert @reader.latlon?("0, 0")
+    assert @reader.latlon?("123.456,98.2")
+    assert @reader.latlon?("  -123.456,-98.2 ")
   end
 
   def test_feature_collection
@@ -54,18 +63,18 @@ class TestGeomReader < Minitest::Test
     assert_equal "FeatureCollection", json["type"]
     assert_equal ["type", "features"].sort, json.keys.sort
     features = json["features"]
-    assert_equal 4, features.count
+    assert_equal 5, features.count
 
     # encodes properties
-    assert_equal [{}, {}, {}, {"a" => "b"}], features.map { |f| f["properties"] }
+    assert_equal [{}, {}, {}, {"a" => "b"}, {}], features.map { |f| f["properties"] }
     assert_equal Hash.new, features[0]["properties"]
     assert_equal Hash.new, features[1]["properties"]
     assert_equal Hash.new, features[2]["properties"]
     assert_equal({"a" => "b"}, features[3]["properties"])
 
-    assert_equal ["Polygon", "Point", "Point", "Point"], features.map { |f| f["geometry"]["type"] }
+    assert_equal ["Polygon", "Point", "Point", "Point", "Point"], features.map { |f| f["geometry"]["type"] }
 
     gh = [[[-119.53125, 33.75], [-118.125, 33.75], [-118.125, 35.15625], [-119.53125, 35.15625], [-119.53125, 33.75]]]
-    assert_equal [gh, [0.0,1.0], [1.0, 2.0], [3.0, 4.0]], features.map { |f| f["geometry"]["coordinates"] }
+    assert_equal [gh, [0.0,1.0], [1.0, 2.0], [3.0, 4.0], [-118.3, 34.52]], features.map { |f| f["geometry"]["coordinates"] }
   end
 end
