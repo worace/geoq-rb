@@ -79,6 +79,17 @@ command :wkt do |c|
   end
 end
 
+desc "Output entity as a GeoHash"
+command :wkt do |c|
+  c.action do |global_options,options,args|
+    raise args.inspect
+    reader = GeoCli::GeomReader.new(STDIN)
+    GeoCli::Commands::GeoHash.new(reader).output.each do |gh|
+      puts gh
+    end
+  end
+end
+
 pre do |global,command,options,args|
   # Pre logic here
   # Return true to proceed; false to abort and not call the

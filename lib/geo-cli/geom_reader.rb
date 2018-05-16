@@ -3,6 +3,9 @@ require "rgeo"
 require "rgeo/geo_json"
 
 module GeoCli
+  class RepresentationError < ArgumentError
+  end
+
   module Commands
     class Base
       attr_reader :global_opts, :opts, :args, :instream
@@ -22,6 +25,20 @@ module GeoCli
       class FeatureCollection < Base
         def output
           GeoCli::FeatureCollection.new(instream).to_geojson
+        end
+      end
+    end
+
+    class GeoHash < Base
+      def level
+        args.first.to_i
+      end
+
+      def output
+        Enumerator.new do |e|
+          instream.each do |entity|
+            e << entity.gh_string(level)
+          end
         end
       end
     end
@@ -51,6 +68,14 @@ module GeoCli
 
     def to_wkt
       entity.as_text
+    end
+
+    def gh_string(level)
+      if entity.dimension == 0
+        GeoHash.encode(entity.x, entity.y, level)
+      else
+        raise RepresentationError.new("GeoHash representation not supported for #{entity.to_s}")
+      end
     end
   end
 
