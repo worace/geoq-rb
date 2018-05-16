@@ -60,5 +60,19 @@ module GeoCli
         end
       end
     end
+
+    def test_geohash_neighbors
+      input = TestData.stream(["9q"])
+      command = GeoCli::Commands::GeoHash::Neighbors.new(input)
+      neighbors = ["9r", "9x", "9w", "9t", "9m", "9j", "9n", "9p"]
+      assert_equal neighbors, command.output.to_a
+    end
+
+    def test_geohash_neighbors_inclusive
+      input = TestData.stream(["9q"])
+      command = GeoCli::Commands::GeoHash::Neighbors.new(input, {}, {inclusive: true})
+      neighbors = ["9q", "9r", "9x", "9w", "9t", "9m", "9j", "9n", "9p"]
+      assert_equal neighbors, command.output.to_a
+    end
   end
 end

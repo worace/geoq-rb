@@ -92,11 +92,24 @@ command :gh do |c|
     end
   end
 
-  c.desc "Output children of supplied Geohash."
+  c.desc "Output the 32 children of the supplied Geohash."
   c.command :children do |c|
     c.action do |global_options,options,args|
       reader = GeoCli::GeomReader.new(STDIN)
       GeoCli::Commands::GeoHash::Children.new(reader, global_options, options, args).output.each do |gh|
+        puts gh
+      end
+    end
+  end
+
+  c.desc "Output the 8 neighbors of the supplied Geohash."
+  c.command :neighbors do |c|
+    c.switch :i, "inclusive",
+             desc: "Include the supplied geohash in the output, giving a 3x3 grid centered on the geohash. Default: False",
+             negatable: false
+    c.action do |global_options,options,args|
+      reader = GeoCli::GeomReader.new(STDIN)
+      GeoCli::Commands::GeoHash::Neighbors.new(reader, global_options, options, args).output.each do |gh|
         puts gh
       end
     end

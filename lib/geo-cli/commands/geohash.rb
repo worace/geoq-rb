@@ -26,6 +26,18 @@ module GeoCli
           end
         end
       end
+
+      class Neighbors < Base
+        def output
+          Enumerator.new do |e|
+            instream.each do |entity|
+              entity.gh_neighbors(opts[:inclusive]).each do |gh|
+                e << gh
+              end
+            end
+          end
+        end
+      end
     end
   end
 end

@@ -41,11 +41,23 @@ module GeoCli
     def gh_children
       raise RepresentationError.new("GeoHash children not supported for #{entity.to_s}")
     end
+
+    def gh_neighbors(inclusive = false)
+      raise RepresentationError.new("GeoHash neighbors not supported for #{entity.to_s}")
+    end
   end
 
   class Geohash < Entity
     def gh_children
       BASE_32.chars.map { |char| raw + char }
+    end
+
+    def gh_neighbors(inclusive = false)
+      if inclusive
+        [raw] + GeoHash.neighbors(raw)
+      else
+        GeoHash.neighbors(raw)
+      end
     end
   end
 
