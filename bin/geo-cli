@@ -79,15 +79,29 @@ command :wkt do |c|
   end
 end
 
-desc "Output entity as a GeoHash"
-arg "level", required: true
+desc "Encode and manipulate geometries as GeoHashes"
 command :gh do |c|
-  c.action do |global_options,options,args|
-    reader = GeoCli::GeomReader.new(STDIN)
-    GeoCli::Commands::GeoHash.new(reader, global_options, options, args).output.each do |gh|
-      puts gh
+  c.desc "Encode supplied point as a GeoHash at the specified level. Only supports lat,lon points."
+  c.arg "level", required: true
+  c.command :point do |c|
+    c.action do |global_options,options,args|
+      reader = GeoCli::GeomReader.new(STDIN)
+      GeoCli::Commands::GeoHash::Point.new(reader, global_options, options, args).output.each do |gh|
+        puts gh
+      end
     end
   end
+
+  c.desc "Output children of supplied Geohash."
+  c.command :children do |c|
+    c.action do |global_options,options,args|
+      reader = GeoCli::GeomReader.new(STDIN)
+      GeoCli::Commands::GeoHash::Children.new(reader, global_options, options, args).output.each do |gh|
+        puts gh
+      end
+    end
+  end
+
 end
 
 pre do |global,command,options,args|

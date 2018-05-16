@@ -4,10 +4,11 @@ require "rgeo"
 
 module GeoCli
   class Entity
-    attr_reader :entity
+    attr_reader :entity, :raw
 
-    def initialize(entity)
+    def initialize(entity, raw)
       @entity = entity
+      @raw = raw
     end
 
     def as_geojson(feature = false)
@@ -36,9 +37,16 @@ module GeoCli
         raise RepresentationError.new("GeoHash representation not supported for #{entity.to_s}")
       end
     end
+
+    def gh_children
+      raise RepresentationError.new("GeoHash children not supported for #{entity.to_s}")
+    end
   end
 
   class Geohash < Entity
+    def gh_children
+      BASE_32.chars.map { |char| raw + char }
+    end
   end
 
   class Wkt < Entity

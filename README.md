@@ -59,3 +59,21 @@ Geohash Ops
 * Covering Geohashes
 * Children
 * Neighbors
+
+## Feature TODO
+
+* [X] Read WKT
+* [X] Read GeoJSON
+* [X] Read Geohash
+* [X] Read Lat,Lon
+* [X] Output GeoJSON geom
+* [X] Output GeoJSON feature
+* [X] Output GeoJSON featurecollection
+* [X] Output geohash (point)
+* [ ] Output geohashes (geometry -- covering geohashes)
+* [ ] Output Geom Centroid
+* [ ] Output Geom area
+* [ ] Output Geom perimeter
+* [X] Output Geohash Children
+* [ ] Output Geohash Neighbors
+* [ ] Output results to gist (geojson only)

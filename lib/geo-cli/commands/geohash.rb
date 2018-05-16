@@ -1,14 +1,28 @@
 module GeoCli
   module Commands
-    class GeoHash < Base
-      def level
-        args.first.to_i
+    module GeoHash
+      class Point < Base
+        def level
+          args.first.to_i
+        end
+
+        def output
+          Enumerator.new do |e|
+            instream.each do |entity|
+              e << entity.gh_string(level)
+            end
+          end
+        end
       end
 
-      def output
-        Enumerator.new do |e|
-          instream.each do |entity|
-            e << entity.gh_string(level)
+      class Children < Base
+        def output
+          Enumerator.new do |e|
+            instream.each do |entity|
+              entity.gh_children.each do |gh|
+                e << gh
+              end
+            end
           end
         end
       end
