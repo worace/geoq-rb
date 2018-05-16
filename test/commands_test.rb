@@ -29,5 +29,13 @@ module GeoCli
       command = GeoCli::Commands::GeoHash.new(input, {}, {}, ["4"])
       assert_equal ["7zzz", "9qh1"], command.output.to_a
     end
+
+    def test_gh_raises_for_geometry
+      input = TestData.mixed_stream.take(1)
+      command = GeoCli::Commands::GeoHash.new(input, {}, {}, ["4"])
+      assert_raises GeoCli::RepresentationError do
+        command.output.to_a
+      end
+    end
   end
 end
