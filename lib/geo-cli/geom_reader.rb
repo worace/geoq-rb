@@ -6,44 +6,6 @@ module GeoCli
   class RepresentationError < ArgumentError
   end
 
-  module Commands
-    class Base
-      attr_reader :global_opts, :opts, :args, :instream
-      def initialize(instream, global_opts = {}, opts = {}, args = [])
-        @global_opts = global_opts
-        @opts = opts
-        @args = args
-        @instream = instream
-      end
-
-      def output
-        raise "Not implemented"
-      end
-    end
-
-    module GeoJson
-      class FeatureCollection < Base
-        def output
-          GeoCli::FeatureCollection.new(instream).to_geojson
-        end
-      end
-    end
-
-    class GeoHash < Base
-      def level
-        args.first.to_i
-      end
-
-      def output
-        Enumerator.new do |e|
-          instream.each do |entity|
-            e << entity.gh_string(level)
-          end
-        end
-      end
-    end
-  end
-
   class Entity
     attr_reader :entity
 
