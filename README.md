@@ -45,4 +45,4 @@ geoq wkt --help
 * [X] Output Geohash Children
 * [X] Output Geohash Neighbors
 * [ ] Output results to gist (geojson only)
-* [ ] Literate-style Usage doc with checked examples
+* [X] Literate-style Usage doc with checked examples
