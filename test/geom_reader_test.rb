@@ -39,5 +39,18 @@ module Geoq
       assert reader.latlon?("123.456,98.2")
       assert reader.latlon?("  -123.456,-98.2 ")
     end
+
+    def test_correct_lat_lon_ordering
+      entities = TestData.stream(["1,2", "34, -118"]).to_a
+      assert_equal entities[0].entity.x, 2
+      assert_equal entities[0].entity.y, 1
+      assert_equal entities[1].entity.x, -118
+      assert_equal entities[1].entity.y, 34
+    end
+
+    def test_lat_lon_geohash_conversion
+      point = TestData.stream(["34, -118"]).first
+      assert_equal "9qh1", point.gh_string(4)
+    end
   end
 end

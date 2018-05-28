@@ -32,22 +32,22 @@ module Geoq
         p1 = factory.point(lon1, lat1)
         p2 = factory.point(lon2, lat2)
         geom = RGeo::Cartesian::BoundingBox.create_from_points(p1, p2).to_geometry
-        Geohash.new(geom, clean_geohash(line))
+        Geohash.new(geom, strip_whitespace(line))
       elsif geojson?(line)
         GeoJson.new(RGeo::GeoJSON.decode(line), line)
       elsif latlon?(line)
-        LatLon.new(factory.point(*line.split(",").map(&:to_f)), line)
+        LatLon.new(factory.point(*strip_whitespace(line).split(",").map(&:to_f).reverse), line)
       else
         Wkt.new(wkt.parse(line), line)
       end
     end
 
-    def clean_geohash(line)
+    def strip_whitespace(line)
       line.gsub(/\s+/, "").downcase
     end
 
     def geohash?(line)
-      !!GH_REGEX.match(clean_geohash(line))
+      !!GH_REGEX.match(strip_whitespace(line))
     end
 
     def geojson?(line)
@@ -55,7 +55,7 @@ module Geoq
     end
 
     def latlon?(line)
-      !!LAT_LON_REGEX.match(line.gsub(/\s+/, ""))
+      !!LAT_LON_REGEX.match(strip_whitespace(line))
     end
 
     private

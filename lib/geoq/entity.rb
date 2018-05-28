@@ -32,7 +32,7 @@ module Geoq
 
     def gh_string(level)
       if entity.dimension == 0
-        GeoHash.encode(entity.x, entity.y, level)
+        GeoHash.encode(entity.y, entity.x, level)
       else
         raise RepresentationError.new("GeoHash representation not supported for #{entity.to_s}")
       end
