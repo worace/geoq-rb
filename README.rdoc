@@ -1,6 +1,6 @@
-= geo-cli
+= geoq
 
 Describe your project here
 
-:include:geo-cli.rdoc
+:include:geoq.rdoc
 

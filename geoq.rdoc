@@ -1,5 +1,5 @@
-= geo-cli
+= geoq
 
 Generate this with
-    geo-cli rdoc
+    geoq rdoc
 After you have described your command line interface

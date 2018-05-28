@@ -1,0 +1,7 @@
+require 'geoq/version.rb'
+require 'geoq/geom_reader.rb'
+require 'geoq/commands/base.rb'
+require 'geoq/commands/geohash.rb'
+require 'geoq/commands/geojson.rb'
+require 'geoq/entity.rb'
+require 'geoq/errors.rb'

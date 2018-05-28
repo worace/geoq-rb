@@ -1,0 +1,141 @@
+#!/usr/bin/env ruby
+require 'gli'
+begin # XXX: Remove this begin/rescue before distributing your app
+require 'geoq'
+rescue LoadError
+  STDERR.puts "In development, you need to use `bundle exec bin/geoq` to run your app"
+  STDERR.puts "At install-time, RubyGems will make sure lib, etc. are in the load path"
+  STDERR.puts "Feel free to remove this message from bin/geoq now"
+  exit 64
+end
+
+include GLI::App
+
+program_desc <<-desc
+Geospatial utility belt
+
+    geoq is a command-line tool for converting between various
+    GIS serialization formats. For example:
+
+        echo 9q5 | geoq gj geometry
+
+    Will output the geohash 9q5 as a geojson geometry.
+
+    Most commands will accept a Lat/Lon (comma-separated), a Geohash
+    (base 32 encoded), a WKT, or a GeoJSON input.
+
+    The tool should recognize the input type based on its format.
+
+    Commands expect one geo entity per line.
+
+    See COMMANDS for more possible commands.
+
+    See geoq <COMMAND> --help for more info on a given command.
+desc
+
+version Geoq::VERSION
+
+subcommand_option_handling :normal
+arguments :strict
+
+
+desc 'Convert to and manipulate GeoJSON.'
+# desc 'Treat all lines of input as a single collection'
+# switch [:s,:slurp]
+command :gj do |c|
+  c.desc "Output entity as a geojson geometry"
+  c.command :geometry do |c|
+    c.action do |global_options,options,args|
+      Geoq::GeomReader.new(STDIN).each do |entity|
+        puts entity.to_geojson
+      end
+    end
+  end
+
+  c.desc "Output entity as a geojson feature"
+  c.command :feature do |c|
+    c.action do |global_options,options,args|
+      Geoq::GeomReader.new(STDIN).each do |entity|
+        puts entity.to_geojson(true)
+      end
+    end
+  end
+
+  c.desc "Combine entities into a geojson feature collection"
+  c.command :fc do |c|
+    c.action do |global_options,options,args|
+      entities = Geoq::GeomReader.new(STDIN)
+      puts Geoq::Commands::GeoJson::FeatureCollection.new(entities).output
+    end
+  end
+end
+
+desc "Output entity as WKT"
+command :wkt do |c|
+  c.action do |global_options,options,args|
+    Geoq::GeomReader.new(STDIN).each do |geom|
+      puts geom.to_wkt
+    end
+  end
+end
+
+desc "Encode and manipulate geometries as GeoHashes"
+command :gh do |c|
+  c.desc "Encode supplied point as a GeoHash at the specified level. Only supports lat,lon points."
+  c.arg "level", required: true
+  c.command :point do |c|
+    c.action do |global_options,options,args|
+      reader = Geoq::GeomReader.new(STDIN)
+      Geoq::Commands::GeoHash::Point.new(reader, global_options, options, args).output.each do |gh|
+        puts gh
+      end
+    end
+  end
+
+  c.desc "Output the 32 children of the supplied Geohash."
+  c.command :children do |c|
+    c.action do |global_options,options,args|
+      reader = Geoq::GeomReader.new(STDIN)
+      Geoq::Commands::GeoHash::Children.new(reader, global_options, options, args).output.each do |gh|
+        puts gh
+      end
+    end
+  end
+
+  c.desc "Output the 8 neighbors of the supplied Geohash."
+  c.command :neighbors do |c|
+    c.switch :i, "inclusive",
+             desc: "Include the supplied geohash in the output, giving a 3x3 grid centered on the geohash. Default: False",
+             negatable: false
+    c.action do |global_options,options,args|
+      reader = Geoq::GeomReader.new(STDIN)
+      Geoq::Commands::GeoHash::Neighbors.new(reader, global_options, options, args).output.each do |gh|
+        puts gh
+      end
+    end
+  end
+
+end
+
+pre do |global,command,options,args|
+  # Pre logic here
+  # Return true to proceed; false to abort and not call the
+  # chosen command
+  # Use skips_pre before a command to skip this block
+  # on that command only
+  true
+end
+
+post do |global,command,options,args|
+  # Post logic here
+  # Use skips_post before a command to skip this
+  # block on that command only
+end
+
+on_error do |exception|
+  # Error logic here
+  # return false to skip default error handling
+  true
+end
+
+exit run(ARGV)
