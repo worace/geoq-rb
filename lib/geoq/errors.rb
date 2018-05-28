@@ -1,4 +1,4 @@
-module GeoCli
+module Geoq
   class RepresentationError < ArgumentError
   end
 end

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    geo-cli (0.0.1)
+    geoq (0.0.1)
       gli (~> 2.17)
       pr_geohash (~> 1.0)
       rgeo (~> 1.0)
@@ -74,7 +74,7 @@ PLATFORMS
 
 DEPENDENCIES
   aruba (~> 0.14)
-  geo-cli!
+  geoq!
   minitest (~> 5.11)
   minitest-reporters (~> 1.2)
   pry (~> 0.11)
@@ -82,4 +82,4 @@ DEPENDENCIES
   rdoc (~> 6.0)
 
 BUNDLED WITH
-   1.16.1
+   1.16.2

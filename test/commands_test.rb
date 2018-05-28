@@ -1,10 +1,10 @@
 require "test_helper"
 require "json"
 
-module GeoCli
+module Geoq
   class CommandsTest < Minitest::Test
     def test_feature_collection
-      fc = GeoCli::Commands::GeoJson::FeatureCollection.new(TestData.mixed_stream)
+      fc = Geoq::Commands::GeoJson::FeatureCollection.new(TestData.mixed_stream)
       json = JSON.parse(fc.output)
       assert_equal "FeatureCollection", json["type"]
       assert_equal ["type", "features"].sort, json.keys.sort
@@ -26,21 +26,21 @@ module GeoCli
 
     def test_geohash_point
       input = TestData.stream(["0,0", "34, -118"])
-      command = GeoCli::Commands::GeoHash::Point.new(input, {}, {}, ["4"])
+      command = Geoq::Commands::GeoHash::Point.new(input, {}, {}, ["4"])
       assert_equal ["7zzz", "9qh1"], command.output.to_a
     end
 
     def test_gh_point_raises_for_geometry
       input = TestData.mixed_stream.take(1)
-      command = GeoCli::Commands::GeoHash::Point.new(input, {}, {}, ["4"])
-      assert_raises GeoCli::RepresentationError do
+      command = Geoq::Commands::GeoHash::Point.new(input, {}, {}, ["4"])
+      assert_raises Geoq::RepresentationError do
         command.output.to_a
       end
     end
 
     def test_geohash_children
       input = TestData.stream(["9q"])
-      command = GeoCli::Commands::GeoHash::Children.new(input)
+      command = Geoq::Commands::GeoHash::Children.new(input)
       children = ["9q0", "9q1", "9q2", "9q3", "9q4", "9q5", "9q6",
                   "9q7", "9q8", "9q9", "9qb", "9qc", "9qd", "9qe",
                   "9qf", "9qg", "9qh", "9qj", "9qk", "9qm", "9qn",
@@ -54,8 +54,8 @@ module GeoCli
         entity.is_a?(Geohash)
       end.each do |i|
         s = TestData.stream([i.raw])
-        command = GeoCli::Commands::GeoHash::Children.new(s)
-        assert_raises GeoCli::RepresentationError do
+        command = Geoq::Commands::GeoHash::Children.new(s)
+        assert_raises Geoq::RepresentationError do
           command.output.to_a
         end
       end
@@ -63,14 +63,14 @@ module GeoCli
 
     def test_geohash_neighbors
       input = TestData.stream(["9q"])
-      command = GeoCli::Commands::GeoHash::Neighbors.new(input)
+      command = Geoq::Commands::GeoHash::Neighbors.new(input)
       neighbors = ["9r", "9x", "9w", "9t", "9m", "9j", "9n", "9p"]
       assert_equal neighbors, command.output.to_a
     end
 
     def test_geohash_neighbors_inclusive
       input = TestData.stream(["9q"])
-      command = GeoCli::Commands::GeoHash::Neighbors.new(input, {}, {inclusive: true})
+      command = Geoq::Commands::GeoHash::Neighbors.new(input, {}, {inclusive: true})
       neighbors = ["9q", "9r", "9x", "9w", "9t", "9m", "9j", "9n", "9p"]
       assert_equal neighbors, command.output.to_a
     end

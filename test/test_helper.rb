@@ -1,5 +1,5 @@
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
-require "geo-cli"
+require "geoq"
 
 require "minitest/autorun"
 require "minitest/reporters"
@@ -7,14 +7,14 @@ require "minitest/spec"
 
 Minitest::Reporters.use! Minitest::Reporters::DefaultReporter.new
 
-module GeoCli::TestData
+module Geoq::TestData
   def self.stream(strings)
     r,w = IO.pipe
     strings.each do |s|
       w.puts(s)
     end
     w.close
-    GeoCli::GeomReader.new(r)
+    Geoq::GeomReader.new(r)
   end
 
   def self.mixed_stream

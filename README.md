@@ -1,6 +1,6 @@
-# geo-cli
+# geoq
 
-[![Gem Version](https://badge.fury.io/rb/geo-cli.svg)](https://badge.fury.io/rb/geo-cli)
+[![Gem Version](https://badge.fury.io/rb/geoq.svg)](https://badge.fury.io/rb/geoq)
 
 Geospatial Utility Belt.
 
@@ -9,49 +9,49 @@ Geospatial Utility Belt.
 Geojson to wkt
 
 ```
-echo '{"type":"Point","coordinates":[1,2]}' | geo-cli wkt
+echo '{"type":"Point","coordinates":[1,2]}' | geoq wkt
 => "POINT (1.0 2.0)"
 ```
 
 wkt to geojson
 
 ```
-echo "POINT (1.0 2.0)" | geo-cli gj geometry
+echo "POINT (1.0 2.0)" | geoq gj geometry
 => {"type":"Point","coordinates":[1,2]}
 ```
 
 geohash to geojson/wkt
 
 ```
-echo 9q5 | geo-cli gj geometry
+echo 9q5 | geoq gj geometry
 => {"type":"Point","coordinates":[1,2]}
 ```
 
 geojson feature
 
 ```
-echo 9q5 | geo-cli gj feature
+echo 9q5 | geoq gj feature
 => {"type": "Feature", "properties": {}, "geometry": {"type":"Point","coordinates":[1,2]}}
 ```
 
 geojson feature collection (??)
 
 ```
-echo 9q5 | geo-cli gj fc
+echo 9q5 | geoq gj fc
 => {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {}, "geometry": {"type":"Point","coordinates":[1,2]}}]}
 ```
 
 slurp multiple geoms into feature collection
 
 ```
-printf "9q5\n9q6\n9q7\n" | geo-cli gj fc
+printf "9q5\n9q6\n9q7\n" | geoq gj fc
 => {"type": "FeatureCollection", "features": [...]}
 ```
 
 post gist to github
 
 ```
-echo 9q5 | geo-cli gj | geo-cli gist
+echo 9q5 | geoq gj | geoq gist
 => {"type":"Point","coordinates":[1,2]}
 ```
 Geohash Ops

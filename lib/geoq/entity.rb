@@ -2,7 +2,7 @@ require "rgeo/geo_json"
 require "pr_geohash"
 require "rgeo"
 
-module GeoCli
+module Geoq
   class Entity
     attr_reader :entity, :raw
 

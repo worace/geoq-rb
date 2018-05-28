@@ -1,9 +1,9 @@
-module GeoCli
+module Geoq
   module Commands
     module GeoJson
       class FeatureCollection < Base
         def output
-          GeoCli::FeatureCollection.new(instream).to_geojson
+          Geoq::FeatureCollection.new(instream).to_geojson
         end
       end
     end

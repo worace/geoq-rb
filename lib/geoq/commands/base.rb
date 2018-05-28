@@ -1,4 +1,4 @@
-module GeoCli
+module Geoq
   module Commands
     class Base
       attr_reader :global_opts, :opts, :args, :instream

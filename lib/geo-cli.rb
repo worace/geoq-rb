@@ -1,7 +1,0 @@
-require 'geo-cli/version.rb'
-require 'geo-cli/geom_reader.rb'
-require 'geo-cli/commands/base.rb'
-require 'geo-cli/commands/geohash.rb'
-require 'geo-cli/commands/geojson.rb'
-require 'geo-cli/entity.rb'
-require 'geo-cli/errors.rb'

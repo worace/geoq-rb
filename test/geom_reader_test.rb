@@ -1,14 +1,14 @@
 require "test_helper"
 require "json"
 
-module GeoCli
+module Geoq
   class GeomReaderTest < Minitest::Test
     attr_reader :reader
 
     def setup
       r,w = IO.pipe
       w.close
-      @reader = GeoCli::GeomReader.new(r)
+      @reader = Geoq::GeomReader.new(r)
     end
 
     def test_recognizes_geohashes
@@ -26,11 +26,11 @@ module GeoCli
 
     def test_parse_objects
       parsed = TestData.mixed_stream.to_a
-      assert parsed[0].is_a? GeoCli::Geohash
-      assert parsed[1].is_a? GeoCli::GeoJson
-      assert parsed[2].is_a? GeoCli::Wkt
-      assert parsed[3].is_a? GeoCli::GeoJson
-      assert parsed[4].is_a? GeoCli::LatLon
+      assert parsed[0].is_a? Geoq::Geohash
+      assert parsed[1].is_a? Geoq::GeoJson
+      assert parsed[2].is_a? Geoq::Wkt
+      assert parsed[3].is_a? Geoq::GeoJson
+      assert parsed[4].is_a? Geoq::LatLon
     end
 
     def test_parsing_lat_lons

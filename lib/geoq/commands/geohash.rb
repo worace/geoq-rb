@@ -1,4 +1,4 @@
-module GeoCli
+module Geoq
   module Commands
     module GeoHash
       class Point < Base
