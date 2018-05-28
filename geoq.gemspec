@@ -17,7 +17,6 @@ spec = Gem::Specification.new do |s|
   s.executables << 'geoq'
 
   s.add_development_dependency('rake', '~>12.3')
-  s.add_development_dependency('rdoc', '~>6.0')
   s.add_development_dependency('aruba', '~>0.14')
   s.add_development_dependency('minitest', '~> 5.11')
   s.add_development_dependency('minitest-reporters', '~>1.2')

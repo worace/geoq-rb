@@ -1,5 +1,0 @@
-= geoq
-
-Generate this with
-    geoq rdoc
-After you have described your command line interface
