@@ -1,67 +1,63 @@
 # Geoq Usage
 
-```setup
-alias geoqqq="bundle exec geoq" &&
-```
-
-## GeoJSON (`geoq gj`)
+## Generating GeoJSON (`geoq gj`)
 
 Output a geo feature as a GeoJSON Geometry
 
 ```example
-echo 9q5 | bundle exec bin/geoq gj geometry
+echo 9q5 | geoq gj geometry
 => {"type":"Polygon","coordinates":[[[-119.53125,33.75],[-118.125,33.75],[-118.125,35.15625],[-119.53125,35.15625],[-119.53125,33.75]]]}
 ```
 
 Output a geo feature as a GeoJSON Feature
 
 ```example
-echo 9q5 | bundle exec bin/geoq gj feature
+echo 9q5 | geoq gj feature
 => {"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-119.53125,33.75],[-118.125,33.75],[-118.125,35.15625],[-119.53125,35.15625],[-119.53125,33.75]]]}}
 ```
 
 Combine 1 or more geo features into a GeoJSON Feature Collection
 
 ```example
-printf "9q5\n9q4\n" | bundle exec bin/geoq gj fc
+printf "9q5\n9q4\n" | geoq gj fc
 => {"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-119.53125,33.75],[-118.125,33.75],[-118.125,35.15625],[-119.53125,35.15625],[-119.53125,33.75]]]}},{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-120.9375,33.75],[-119.53125,33.75],[-119.53125,35.15625],[-120.9375,35.15625],[-120.9375,33.75]]]}}]}
 ```
 
 Converts Geohashes, WKTs, Lat/Lons, and GeoJSON into GeoJSON
 
 ```example
-echo 9q5 | bundle exec bin/geoq gj geometry
+echo 9q5 | geoq gj geometry
 => {"type":"Polygon","coordinates":[[[-119.53125,33.75],[-118.125,33.75],[-118.125,35.15625],[-119.53125,35.15625],[-119.53125,33.75]]]}
 ```
 
 ```example
-echo "POINT (1.0 2.0)" | bundle exec bin/geoq gj geometry
+echo "POINT (1.0 2.0)" | geoq gj geometry
 => {"type":"Point","coordinates":[1.0,2.0]}
 ```
 
 ```example
-echo "34.52,-118.3" | bundle exec bin/geoq gj geometry
+echo "34.52,-118.3" | geoq gj geometry
 => {"type":"Point","coordinates":[-118.3,34.52]}
 ```
 
 ```example
-echo '{"type":"Point","coordinates":[-118.3,34.52]}' | bundle exec bin/geoq gj geometry
+echo '{"type":"Point","coordinates":[-118.3,34.52]}' | geoq gj geometry
 => {"type":"Point","coordinates":[-118.3,34.52]}
 ```
 
-## Geohashes (`geoq gh`)
+## Working with Geohashes (`geoq gh`)
 
 Convert a point to a geohash at specified level
 
 ```example
-echo "34,-118" | bundle exec bin/geoq gh point 4
+echo "34,-118" | geoq gh point 4
 => 9qh1
 ```
 
 Get children of a geohash
 
 ```example
-echo 9qh1 | bundle exec bin/geoq gh children
+echo 9qh1 | geoq gh children
 => 9qh10
 9qh11
 9qh12
@@ -99,7 +95,7 @@ echo 9qh1 | bundle exec bin/geoq gh children
 Get neighbors of a geohash
 
 ```example
-echo 9qh1 | bundle exec bin/geoq gh neighbors
+echo 9qh1 | geoq gh neighbors
 => 9qh4
 9qh6
 9qh3
@@ -113,7 +109,7 @@ echo 9qh1 | bundle exec bin/geoq gh neighbors
 Include the original geohash in the neighbors list:
 
 ```example
-echo 9qh1 | bundle exec bin/geoq gh neighbors -i
+echo 9qh1 | geoq gh neighbors -i
 => 9qh1
 9qh4
 9qh6
@@ -125,26 +121,26 @@ echo 9qh1 | bundle exec bin/geoq gh neighbors -i
 9q5f
 ```
 
-## WKT (`geoq wkt`)
+## Generating WKT (`geoq wkt`)
 
 Converts Geohashes, WKTs, Lat/Lons, and GeoJSON into GeoJSON
 
 ```example
-echo 9q5 | bundle exec bin/geoq wkt
+echo 9q5 | geoq wkt
 => POLYGON ((-119.53125 33.75, -118.125 33.75, -118.125 35.15625, -119.53125 35.15625, -119.53125 33.75))
 ```
 
 ```example
-echo "POINT (1.0 2.0)" | bundle exec bin/geoq wkt
+echo "POINT (1.0 2.0)" | geoq wkt
 => POINT (1.0 2.0)
 ```
 
 ```example
-echo "34.52,-118.3" | bundle exec bin/geoq wkt
+echo "34.52,-118.3" | geoq wkt
 => POINT (-118.3 34.52)
 ```
 
 ```example
-echo '{"type":"Point","coordinates":[-118.3,34.52]}' | bundle exec bin/geoq wkt
+echo '{"type":"Point","coordinates":[-118.3,34.52]}' | geoq wkt
 => POINT (-118.3 34.52)
 ```

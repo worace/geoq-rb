@@ -18,7 +18,7 @@ module Geoq
     end
 
     def checked_command(command)
-      result = `#{command}`
+      result = `#{command.gsub("geoq", "bundle exec bin/geoq")}`
       if $? != 0
         raise RuntimeError.new("Command #{command} exited with non-zero response code.")
       end
