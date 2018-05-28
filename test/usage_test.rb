@@ -7,14 +7,14 @@ module Geoq
     end
 
     def examples
-      File.read("./usage.md").scan(/```rb\n(.+\n=> .+\n)```/).to_a.flatten.map { |match| match.split("\n=> ") }
+      File.read("./usage.md").scan(/```example\n(.*?)```\n/m).to_a.flatten.map { |match| match.split("\n=> ") }
     end
 
     def setup
     end
 
     def test_reads_examples
-      assert_equal 6, examples.count
+      assert_equal 15, examples.count
     end
 
     def checked_command(command)
@@ -26,9 +26,9 @@ module Geoq
     end
 
     def test_run_examples
-      examples.each do |command, output|
+      examples.each do |command, expected_output|
         result = checked_command(command)
-        assert_equal result, output, "Checked example: #{command} failed"
+        assert_equal expected_output, result, "Checked example: #{command} failed"
       end
     end
   end
