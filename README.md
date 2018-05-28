@@ -2,6 +2,8 @@
 
 [![Gem Version](https://badge.fury.io/rb/geoq.svg)](https://badge.fury.io/rb/geoq)
 
+[![Build Status](https://travis-ci.org/worace/geoq.svg?branch=master)](https://travis-ci.org/worace/geoq)
+
 Geospatial Utility Belt.
 
 ## Install
