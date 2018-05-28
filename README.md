@@ -4,63 +4,31 @@
 
 Geospatial Utility Belt.
 
-## (desired) Features
-
-Geojson to wkt
+## Install
 
 ```
-echo '{"type":"Point","coordinates":[1,2]}' | geoq wkt
-=> "POINT (1.0 2.0)"
+gem install geoq
 ```
 
-wkt to geojson
+## Usage
+
+**[View the Usage Doc](https://github.com/worace/geoq/blob/master/usage.md)** for detailed usage examples.
+
+To view the included help just run the base command:
 
 ```
-echo "POINT (1.0 2.0)" | geoq gj geometry
-=> {"type":"Point","coordinates":[1,2]}
+geoq
+# or
+geoq --help
 ```
 
-geohash to geojson/wkt
+Or view help for a specific command:
 
 ```
-echo 9q5 | geoq gj geometry
-=> {"type":"Point","coordinates":[1,2]}
+geoq wkt --help
 ```
 
-geojson feature
-
-```
-echo 9q5 | geoq gj feature
-=> {"type": "Feature", "properties": {}, "geometry": {"type":"Point","coordinates":[1,2]}}
-```
-
-geojson feature collection (??)
-
-```
-echo 9q5 | geoq gj fc
-=> {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {}, "geometry": {"type":"Point","coordinates":[1,2]}}]}
-```
-
-slurp multiple geoms into feature collection
-
-```
-printf "9q5\n9q6\n9q7\n" | geoq gj fc
-=> {"type": "FeatureCollection", "features": [...]}
-```
-
-post gist to github
-
-```
-echo 9q5 | geoq gj | geoq gist
-=> {"type":"Point","coordinates":[1,2]}
-```
-Geohash Ops
-
-* Covering Geohashes
-* Children
-* Neighbors
-
-## Feature TODO
+## Feature Wishlist
 
 * [X] Read WKT
 * [X] Read GeoJSON
