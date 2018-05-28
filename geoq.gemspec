@@ -8,13 +8,11 @@ spec = Gem::Specification.new do |s|
   s.homepage = 'https://github.com/worace/geoq'
   s.platform = Gem::Platform::RUBY
   s.license = 'MIT'
-  s.summary = 'geoq is a command-line utility for converting between common GIS serialization formats.'
+  s.summary = 'geoq is a command-line utility for GIS format conversion and common GIS operations'
   s.files = `git ls-files`.split('
 ')
   s.require_paths << 'lib'
-  s.has_rdoc = true
-  s.extra_rdoc_files = ['README.rdoc','geoq.rdoc']
-  s.rdoc_options << '--title' << 'geoq' << '--main' << 'README.rdoc' << '-ri'
+  s.has_rdoc = false
   s.bindir = 'bin'
   s.executables << 'geoq'
 
