@@ -48,3 +48,11 @@ geoq wkt --help
 * [X] Output Geohash Neighbors
 * [ ] Output results to gist (geojson only)
 * [X] Literate-style Usage doc with checked examples
+
+## Releasing
+
+```
+gem build geoq.gemspec
+gem push geoq-*.gem
+rm geoq-*.gem
+```
