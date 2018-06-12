@@ -47,7 +47,7 @@ command :gj do |c|
   c.command :geometry do |c|
     c.action do |global_options,options,args|
       Geoq::GeomReader.new(STDIN).each do |entity|
-        puts entity.to_geojson
+        entity.each { |e| puts entity.to_geojson }
       end
     end
   end
@@ -56,7 +56,7 @@ command :gj do |c|
   c.command :feature do |c|
     c.action do |global_options,options,args|
       Geoq::GeomReader.new(STDIN).each do |entity|
-        puts entity.to_geojson(true)
+        entity.each { |e| puts entity.to_geojson(true) }
       end
     end
   end

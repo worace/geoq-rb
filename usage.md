@@ -23,6 +23,13 @@ printf "9q5\n9q4\n" | geoq gj fc
 => {"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-119.53125,33.75],[-118.125,33.75],[-118.125,35.15625],[-119.53125,35.15625],[-119.53125,33.75]]]}},{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-120.9375,33.75],[-119.53125,33.75],[-119.53125,35.15625],[-120.9375,35.15625],[-120.9375,33.75]]]}}]}
 ```
 
+Concat multiple GeoJSON Feature Collections into a single collection
+
+```example
+printf '9q5\n{"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-119.53125,33.75],[-118.125,33.75],[-118.125,35.15625],[-119.53125,35.15625],[-119.53125,33.75]]]}},{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-120.9375,33.75],[-119.53125,33.75],[-119.53125,35.15625],[-120.9375,35.15625],[-120.9375,33.75]]]}}]}' | jq ".features | length"
+=> 3
+```
+
 Converts Geohashes, WKTs, Lat/Lons, and GeoJSON into GeoJSON
 
 ```example
