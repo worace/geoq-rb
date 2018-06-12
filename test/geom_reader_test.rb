@@ -52,5 +52,10 @@ module Geoq
       point = TestData.stream(["34, -118"]).first
       assert_equal "9qh1", point.gh_string(4)
     end
+
+    def test_gj_feature_collections_read_as_multiple
+      reader = TestData.stream([TestData.fc.to_json])
+      assert_equal 2, reader.count
+    end
   end
 end

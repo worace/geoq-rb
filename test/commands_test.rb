@@ -24,6 +24,20 @@ module Geoq
       assert_equal [gh, [0.0,1.0], [1.0, 2.0], [3.0, 4.0], [-118.3, 34.52], [3.0, 4.0]], features.map { |f| f["geometry"]["coordinates"] }
     end
 
+    def test_feature_collection_given_feature_collection
+      input = TestData.stream([TestData.fc.to_json])
+      fc = Geoq::Commands::GeoJson::FeatureCollection.new(input)
+      json = JSON.parse(fc.output)
+      assert_equal "FeatureCollection", json["type"]
+      assert_equal 2, json["features"].count
+
+      input = TestData.stream([TestData.fc.to_json, "9q"])
+      fc = Geoq::Commands::GeoJson::FeatureCollection.new(input)
+      json = JSON.parse(fc.output)
+      assert_equal "FeatureCollection", json["type"]
+      assert_equal 3, json["features"].count
+    end
+
     def test_geohash_point
       input = TestData.stream(["0,0", "34, -118"])
       command = Geoq::Commands::GeoHash::Point.new(input, {}, {}, ["4"])

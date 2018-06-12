@@ -8,6 +8,11 @@ require "minitest/spec"
 Minitest::Reporters.use! Minitest::Reporters::DefaultReporter.new
 
 module Geoq::TestData
+  def self.fc
+    {type: "FeatureCollection", features: [{type: "Feature", properties: {a: "b"}, geometry: {type: "Point", coordinates: [3,4]}},
+                                           {type: "Feature", properties: {a: "b"}, geometry: {type: "Point", coordinates: [5,6]}}]}
+  end
+
   def self.stream(strings)
     r,w = IO.pipe
     strings.each do |s|

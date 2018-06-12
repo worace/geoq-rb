@@ -4,7 +4,6 @@ require "rgeo"
 
 module Geoq
   class Entity
-    include Enumerable
     attr_reader :entity, :raw
 
     def initialize(entity, raw)
@@ -12,16 +11,12 @@ module Geoq
       @raw = raw
     end
 
-    def each
-      yield self
-    end
-
     def as_geojson(feature = false)
       geom = RGeo::GeoJSON.encode(entity)
       if feature
         {type: "Feature",
-          properties: {},
-          geometry: geom}
+         properties: {},
+         geometry: geom}
       else
         geom
       end
@@ -73,26 +68,14 @@ module Geoq
   end
 
   class GeoJson < Entity
-    def each(&block)
-      case entity
-      when RGeo::GeoJSON::FeatureCollection
-        entity.each(&block)
-      else
-        super
-      end
-    end
-
     def as_geojson(feature = false)
       if feature
-        case entity
-        when RGeo::GeoJSON::Feature
+        if entity.is_a?(RGeo::GeoJSON::Feature)
           RGeo::GeoJSON.encode(entity)
-        when RGeo::GeoJSON::FeatureCollection
-          entity.map { |e| RGeo::GeoJSON.encode(e) }
         else
           {type: "Feature",
-            properties: {},
-            geometry: RGeo::GeoJSON.encode(entity)}
+           properties: {},
+           geometry: RGeo::GeoJSON.encode(entity)}
         end
       else
         RGeo::GeoJSON.encode(entity)
@@ -108,7 +91,7 @@ module Geoq
 
     def to_geojson
       {type: "FeatureCollection",
-       features: entities.flat_map { |e| e.as_geojson(true) } }.to_json
+       features: entities.map { |e| e.as_geojson(true) } }.to_json
     end
   end
 end
