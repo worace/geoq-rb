@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    geoq (0.0.1)
+    geoq (0.0.2)
       gli (~> 2.17)
       os (~> 1.0)
       pr_geohash (~> 1.0)
