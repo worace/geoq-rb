@@ -117,11 +117,23 @@ command :gh do |c|
   end
 end
 
-desc "Output entity as WKT"
+GEOJSON_IO_URL_LIMIT = 27000 # crudely derived via experimentation
+map_desc = "
+Plot input on geojson.io.
+
+Input will be converted to a GeoJSON FeatureCollection, similarly to 'geoq gj fc'
+
+We rely on url-encoding the desired GeoJSON to transfer it to geojson.io, so long inputs
+over 27k characters will be rejected."
+
+desc map_desc
 command :map do |c|
   c.action do |global_options,options,args|
     entities = Geoq::GeomReader.new(STDIN)
     geojson = Geoq::Commands::GeoJson::FeatureCollection.new(entities).output
+    if geojson.length > GEOJSON_IO_URL_LIMIT
+      raise ArgumentError.new("'geoq map' failed because provided geojson exceeds geojson.io limit")
+    end
     url = "http://geojson.io#data=data:application/json,#{URI.encode(geojson)}"
     open_command = OS.mac? ? 'open' : 'xdg-open'
     exec("#{open_command} #{url}")
