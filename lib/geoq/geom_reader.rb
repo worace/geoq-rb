@@ -22,7 +22,7 @@ module Geoq
 
     def each(&block)
       instream.each_line do |l|
-        block.call(decode(l))
+        decode(l).each(&block)
       end
     end
 
@@ -32,13 +32,19 @@ module Geoq
         p1 = factory.point(lon1, lat1)
         p2 = factory.point(lon2, lat2)
         geom = RGeo::Cartesian::BoundingBox.create_from_points(p1, p2).to_geometry
-        Geohash.new(geom, strip_whitespace(line))
+        [Geohash.new(geom, strip_whitespace(line))]
       elsif geojson?(line)
-        GeoJson.new(RGeo::GeoJSON.decode(line), line)
+        decoded = RGeo::GeoJSON.decode(line)
+        case decoded
+        when RGeo::GeoJSON::FeatureCollection
+          decoded.map { |f| GeoJson.new(f, line) }
+        else
+          [GeoJson.new(decoded, line)]
+        end
       elsif latlon?(line)
-        LatLon.new(factory.point(*strip_whitespace(line).split(",").map(&:to_f).reverse), line)
+        [LatLon.new(factory.point(*strip_whitespace(line).split(",").map(&:to_f).reverse), line)]
       else
-        Wkt.new(wkt.parse(line), line)
+        [Wkt.new(wkt.parse(line), line)]
       end
     end
 

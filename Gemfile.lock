@@ -3,6 +3,7 @@ PATH
   specs:
     geoq (0.0.1)
       gli (~> 2.17)
+      os (~> 1.0)
       pr_geohash (~> 1.0)
       rgeo (~> 1.0)
       rgeo-geojson (~> 2.0)
@@ -53,6 +54,7 @@ GEM
       ruby-progressbar
     multi_json (1.13.1)
     multi_test (0.1.2)
+    os (1.0.0)
     pr_geohash (1.0.0)
     pry (0.11.3)
       coderay (~> 1.1.0)
