@@ -26,7 +26,7 @@ module Geoq
     end
 
     def test_reads_examples
-      assert_equal 15, self.class.examples.count
+      assert_equal 16, self.class.examples.count
     end
   end
 end
