@@ -26,4 +26,5 @@ spec = Gem::Specification.new do |s|
   s.add_runtime_dependency('rgeo', '~>1.0')
   s.add_runtime_dependency('rgeo-geojson', '~>2.0')
   s.add_runtime_dependency('pr_geohash', '~>1.0')
+  s.add_runtime_dependency('os', '~>1.0')
 end
