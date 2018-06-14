@@ -28,6 +28,7 @@ module Geoq::TestData
               "POINT (1.0 2.0)",
               {type: "Feature", properties: {a: "b"}, geometry: {type: "Point", coordinates: [3,4]}}.to_json,
               "34.52,-118.3",
+              "18.3\t-45.3",
               {type: "FeatureCollection", features: [{type: "Feature", properties: {a: "b"}, geometry: {type: "Point", coordinates: [3,4]}}]}.to_json]
     stream(inputs)
   end

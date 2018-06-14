@@ -9,11 +9,11 @@ module Geoq
       assert_equal "FeatureCollection", json["type"]
       assert_equal ["type", "features"].sort, json.keys.sort
       features = json["features"]
-      assert_equal 6, features.count
+      assert_equal 7, features.count
 
-      assert_equal ["Polygon", "Point", "Point", "Point", "Point", "Point"], features.map { |f| f["geometry"]["type"] }
+      assert_equal ["Polygon", "Point", "Point", "Point", "Point", "Point", "Point"], features.map { |f| f["geometry"]["type"] }
       # encodes properties
-      assert_equal [{}, {}, {}, {"a" => "b"}, {}, {"a" => "b"}], features.map { |f| f["properties"] }
+      assert_equal [{}, {}, {}, {"a" => "b"}, {}, {}, {"a" => "b"}], features.map { |f| f["properties"] }
       assert_equal Hash.new, features[0]["properties"]
       assert_equal Hash.new, features[1]["properties"]
       assert_equal Hash.new, features[2]["properties"]
@@ -21,7 +21,7 @@ module Geoq
 
 
       gh = [[[-119.53125, 33.75], [-118.125, 33.75], [-118.125, 35.15625], [-119.53125, 35.15625], [-119.53125, 33.75]]]
-      assert_equal [gh, [0.0,1.0], [1.0, 2.0], [3.0, 4.0], [-118.3, 34.52], [3.0, 4.0]], features.map { |f| f["geometry"]["coordinates"] }
+      assert_equal [gh, [0.0,1.0], [1.0, 2.0], [3.0, 4.0], [-118.3, 34.52], [-45.3, 18.3], [3.0, 4.0]], features.map { |f| f["geometry"]["coordinates"] }
     end
 
     def test_feature_collection_given_feature_collection

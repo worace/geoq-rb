@@ -42,7 +42,7 @@ module Geoq
           [GeoJson.new(decoded, line)]
         end
       elsif latlon?(line)
-        [LatLon.new(factory.point(*strip_whitespace(line).split(",").map(&:to_f).reverse), line)]
+        [LatLon.new(factory.point(*(strip_whitespace(line.gsub("\t", ",")).split(",").map(&:to_f).reverse)), line)]
       else
         [Wkt.new(wkt.parse(line), line)]
       end
@@ -61,7 +61,7 @@ module Geoq
     end
 
     def latlon?(line)
-      !!LAT_LON_REGEX.match(strip_whitespace(line))
+      !!LAT_LON_REGEX.match(strip_whitespace(line.gsub(/\t/, ",")))
     end
 
     private

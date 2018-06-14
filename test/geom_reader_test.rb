@@ -38,6 +38,9 @@ module Geoq
       assert reader.latlon?("0, 0")
       assert reader.latlon?("123.456,98.2")
       assert reader.latlon?("  -123.456,-98.2 ")
+      assert reader.latlon?("123.456	98.2")
+      assert reader.latlon?("123.456\t98.2")
+      assert reader.decode("34\t-118").first.is_a?(LatLon)
     end
 
     def test_correct_lat_lon_ordering
